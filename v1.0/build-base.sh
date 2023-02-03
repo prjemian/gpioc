@@ -56,7 +56,7 @@ cd "${APP_ROOT}"
 echo "# pwd=$(pwd)"
 mkdir -p "${APP_ROOT}/db"
 echo "# SCRIPT_DIR=${SCRIPT_DIR}"
-cp "${SCRIPT_DIR}/db"/* "${APP_ROOT}/db/"
+cp "${SCRIPT_DIR}/db"/demo.db "${APP_ROOT}/db/"
 
 echo_pwd_ls
 echo "# date: $(date --iso-8601=seconds)" | tee -a "${LOGFILE}"
