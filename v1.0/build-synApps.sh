@@ -46,7 +46,7 @@ cd "${SUPPORT}"
 echo_pwd_ls
 
 echo "# --- synApps modules ---" 2>&1 | tee "${LOGFILE}"
-make -j4 release rebuild 2>&1 | tee -a "${LOGFILE}"
+make release rebuild 2>&1 | tee -a "${LOGFILE}"
 echo_pwd_ls
 
 echo "# --- Building XXX IOC ---" 2>&1 | tee -a "${LOGFILE}"
