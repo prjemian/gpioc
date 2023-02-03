@@ -13,6 +13,7 @@ CONTENTS
 
 step | script
 ---- | ------
+Common environment variables | [`env-vars.sh`](./v1.0/env-vars.sh)
 Download and Build EPICS base | [`build-base.sh`](./v1.0/build-base.sh)
 Download and Build synApps | [`build-synApps.sh`](./v1.0/build-synApps.sh)
 Standard xxx IOC | [`build-xxx.sh`](./v1.0/build-xxx.sh)
