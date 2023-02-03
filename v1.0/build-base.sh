@@ -33,9 +33,12 @@ echo "# SCRIPT_DIR=${SCRIPT_DIR}" | tee -a "${LOGFILE}"
 
 echo "# download '${EPICS_BASE_NAME}'" | tee -a "${LOGFILE}"
 wget "https://epics.anl.gov/download/base/${EPICS_BASE_NAME}.tar.gz"
+
 tar xzf "${EPICS_BASE_NAME}.tar.gz"
 /bin/rm "${EPICS_BASE_NAME}.tar.gz"
 ln -s "./${EPICS_BASE_NAME}" ./base
+# aberrant naming of some versions
+ln -s "./base-R${BASE_VERSION}" "./${EPICS_BASE_NAME}"
 
 echo_pwd_ls
 echo "# date: $(date --iso-8601=seconds)" | tee -a "${LOGFILE}"
