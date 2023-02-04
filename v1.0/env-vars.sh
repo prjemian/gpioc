@@ -39,20 +39,32 @@ export SUPPORT="${SYNAPPS}/support"
 export PATH="${SUPPORT}/utils:${PATH}"
 export CAPUTRECORDER_HASH=master
 
+# TODO: are any of these hashes actually used?
+export AD=${SUPPORT}/areaDetector-${AD_HASH}
+export MOTOR=${SUPPORT}/motor-${MOTOR_HASH}
+export SSCAN=${SUPPORT}/sscan-master
+export XXX=${SUPPORT}/xxx-${XXX_HASH}
+export IOCXXX=${XXX}/iocBoot/iocxxx
+
+echo "# AD_HASH=${AD_HASH}"
+echo "# AD=${AD}"
 echo "# APP_ROOT=${APP_ROOT}"
 echo "# BASE_VERSION=${BASE_VERSION}"
+echo "# CAPUTRECORDER_HASH=${CAPUTRECORDER_HASH}"
 echo "# EPICS_BASE_NAME=${EPICS_BASE_NAME}"
 echo "# EPICS_HOST_ARCH=${APP_ROOT}"
 echo "# EPICS_ROOT=${APP_ROOT}"
-echo "# SCRIPT_DIR=${SCRIPT_DIR}"
-echo "# SYNAPPS=${SYNAPPS}"
-echo "# SUPPORT=${SUPPORT}"
-echo "# AD_HASH=${AD_HASH}"
-echo "# CAPUTRECORDER_HASH=${CAPUTRECORDER_HASH}"
+echo "# IOCXXX=${IOCXXX}"
 echo "# MOTOR_HASH=${MOTOR_HASH}"
+echo "# MOTOR=${MOTOR}"
+echo "# SCRIPT_DIR=${SCRIPT_DIR}"
 echo "# SSCAN_HASH=${SSCAN_HASH}"
+echo "# SSCAN=${SSCAN}"
+echo "# SUPPORT=${SUPPORT}"
 echo "# SYNAPPS_HASH=${SYNAPPS_HASH}"
+echo "# SYNAPPS=${SYNAPPS}"
 echo "# XXX_HASH=${XXX_HASH}"
+echo "# XXX=${XXX}"
 
 function echo_pwd_ls
 {
