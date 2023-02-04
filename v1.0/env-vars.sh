@@ -31,12 +31,12 @@ export EPICS_BASE_NAME="base-${BASE_VERSION}"
 
 export EPICS_HOST_ARCH=linux-x86_64
 export EPICS_ROOT="${APP_ROOT}/${EPICS_BASE_NAME}"
-export PATH="${PATH}:${EPICS_ROOT}/bin/${EPICS_HOST_ARCH}"
+export PATH="${EPICS_ROOT}/bin/${EPICS_HOST_ARCH}:${PATH}"
 
 # synApps
 export SYNAPPS="${APP_ROOT}/synApps"
 export SUPPORT="${SYNAPPS}/support"
-export PATH="${PATH}:${SUPPORT}/utils"
+export PATH="${SUPPORT}/utils:${PATH}"
 export CAPUTRECORDER_HASH=master
 
 echo "# APP_ROOT=${APP_ROOT}"

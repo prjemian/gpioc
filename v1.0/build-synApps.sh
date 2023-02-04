@@ -47,6 +47,10 @@ echo_pwd_ls
 
 echo "# --- synApps modules ---" 2>&1 | tee "${LOGFILE}"
 make release rebuild 2>&1 | tee -a "${LOGFILE}"
+# echo "# --- synApps modules --- help asyn ..." 2>&1 | tee -a "${LOGFILE}"
+# make -C sscan-R2-11-4  2>&1 | tee -a "${LOGFILE}"
+# echo "# --- synApps modules --- one more time ..." 2>&1 | tee -a "${LOGFILE}"
+# make  2>&1 | tee -a "${LOGFILE}"
 echo_pwd_ls
 
 echo "# --- Building XXX IOC ---" 2>&1 | tee -a "${LOGFILE}"
@@ -66,7 +70,11 @@ ln -s ${IOCXXX}/ "${APP_ROOT}/iocxxx"
 # copy all the MEDM/CSSBOY/caQtDM/... screens to ${APP_ROOT}/screens
 cd ${APP_ROOT}
 mkdir -p "${APP_ROOT}/screens"
-bash "${SCRIPT_DIR}/scripts/copy_screens.sh" ${SUPPORT} ${APP_ROOT}/screens | tee ./copy_screens.log
+bash \
+    "${SCRIPT_DIR}/scripts/copy_screens.sh" \
+    ${SUPPORT} \
+    ${APP_ROOT}/screens \
+    | tee ./copy_screens.log
 
 # use this script in all IOCs
 bash \
