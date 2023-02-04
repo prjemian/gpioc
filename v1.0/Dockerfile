@@ -34,3 +34,10 @@ ENV APP_ROOT="/opt"
 ENV EDITOR="nano"
 # only show last few subdirs before console prompt
 ENV PROMPT_DIRTRIM=3
+
+COPY ./*.sh ./
+COPY ./db ./db/
+COPY ./scripts ./scripts/
+RUN bash build-base.sh 2>&1 | tee ./build-base.log
+# TODO: test the softIoc somehow
+RUN bash build-synApps.sh 2>&1 | tee ./build-synApps.log
