@@ -67,25 +67,25 @@ _MODULES_+=" STD"
 _MODULES_+=" STREAM"
 _MODULES_+=" XXX"
 
-# for mod in ${_MODULES_}; do
-#   cmd="sed -i s:'^${mod}=\S*\$':'${mod}=master':g ${TARGET}"
+# # for mod in ${_MODULES_}; do
+# #   cmd="sed -i s:'^${mod}=\S*\$':'${mod}=master':g ${TARGET}"
+# #   echo ${cmd}
+# #   eval ${cmd}
+# # done
+# for mod in "CAPUTRECORDER"; do
+#   cmd="sed -i s:'^${mod}=\S*\$':'${mod}=${CAPUTRECORDER_HASH}':g ${TARGET}"
 #   echo ${cmd}
 #   eval ${cmd}
 # done
-for mod in "CAPUTRECORDER"; do
-  cmd="sed -i s:'^${mod}=\S*\$':'${mod}=${CAPUTRECORDER_HASH}':g ${TARGET}"
-  echo ${cmd}
-  eval ${cmd}
-done
-for mod in "MOTOR"; do
-  cmd="sed -i s:'^${mod}=\S*\$':'${mod}=${MOTOR_HASH}':g ${TARGET}"
-  echo ${cmd}
-  eval ${cmd}
-done
-for mod in "STREAM"; do
-  cmd="sed -i s:'^${mod}=\S*\$':'${mod}=2.8.14':g ${TARGET}"
-  echo ${cmd}
-  eval ${cmd}
-done
+# for mod in "MOTOR"; do
+#   cmd="sed -i s:'^${mod}=\S*\$':'${mod}=${MOTOR_HASH}':g ${TARGET}"
+#   echo ${cmd}
+#   eval ${cmd}
+# done
+# for mod in "STREAM"; do
+#   cmd="sed -i s:'^${mod}=\S*\$':'${mod}=2.8.14':g ${TARGET}"
+#   echo ${cmd}
+#   eval ${cmd}
+# done
 
 sed -i s:'git submodule update ADSimDetector':'git submodule update ADSimDetector\ngit submodule update ADURL\ngit submodule update pvaDriver':g ${TARGET}
