@@ -39,6 +39,7 @@ HOST_IOC_ROOT=${TMP_ROOT}/${CONTAINER}
 HOST_TMP_SHARE=${HOST_IOC_ROOT}/tmp
 IMAGE=prjemian/gpioc_host
 IOC_MANAGER=iocxxx/softioc/xxx.sh
+STARTER_SCRIPT=/home/start_custom_xxx_ioc.sh
 
 # create the local directory
 mkdir -p "${HOST_TMP_SHARE}"
@@ -50,9 +51,7 @@ docker run -d -it --rm --net=host \
     ${IMAGE} \
     bash
 # start the IOC
-docker exec \
-  "${CONTAINER}" \
-  /home/start_custom_xxx_ioc.sh
+docker exec "${CONTAINER}" "${STARTER_SCRIPT}"
 
 # stop the IOC
 docker stop "${CONTAINER}"
