@@ -13,6 +13,7 @@ MAKE_OPTIONS+=" CFLAGS=\"-fPIC\""
 MAKE_OPTIONS+=" CXXFLAGS=\"-fPIC\""
 
 cd ${APP_ROOT}
+ln -s "${APP_ROOT}" "${SCRIPT_DIR}/epics"
 echo_pwd_ls
 
 echo "# clear directory '${APP_ROOT}'"

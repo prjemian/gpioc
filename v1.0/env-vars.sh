@@ -10,6 +10,7 @@ export SCRIPT_DIR=$(readlink -f $(dirname "${SHELL_SCRIPT_NAME}"))
 # export SYNAPPS_VERSION=R6-2-1
 
 # HASH is a release, tag, branch or commit hash (commit hash could be shortened)
+export AD_HASH="${AD_HASH:-R3-11}"
 export XXX_HASH="${XXX_HASH:-${SYNAPPS_VERSION}}"
 
 
@@ -35,10 +36,13 @@ export SYNAPPS=${SYNAPPS:-"${APP_ROOT}/synApps"}
 export SUPPORT=${SUPPORT:-"${SYNAPPS}/support"}
 export XXX=${XXX:-"${SUPPORT}/xxx-${XXX_HASH}"}
 export IOCXXX=${IOCXXX:-"${XXX}/iocBoot/iocxxx"}
+export AREA_DETECTOR=${AREA_DETECTOR:-"${SUPPORT}/areaDetector-${AD_HASH}"}
 
 export PATH="${SUPPORT}/utils:${PATH}"
 
+echo "# AD_HASH=${AD_HASH}"
 echo "# APP_ROOT=${APP_ROOT}"
+echo "# AREA_DETECTOR=${AREA_DETECTOR}"
 echo "# BASE_VERSION=${BASE_VERSION}"
 echo "# EPICS_BASE_NAME=${EPICS_BASE_NAME}"
 echo "# EPICS_HOST_ARCH=${APP_ROOT}"

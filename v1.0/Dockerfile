@@ -78,16 +78,30 @@ ENV SYNAPPS_DIR="${SYNAPPS}"
 ENV SUPPORT="${SYNAPPS}/support"
 ENV PATH="${SUPPORT}/utils:${PATH}"
 
+ENV AD_HASH=R3-11
+ENV AREA_DETECTOR=${SUPPORT}/areaDetector-${AD_HASH}
 ENV XXX_HASH=${SYNAPPS_VERSION}
 ENV XXX=${SUPPORT}/xxx-${XXX_HASH}
 ENV IOCXXX=${XXX}/iocBoot/iocxxx
 
-COPY ./scripts ./scripts/
+RUN mkdir -p ./scripts
+COPY ./scripts/edit_assemble_synApps.sh ./scripts/
+COPY ./scripts/recommended_AD_edits.sh ./scripts/
 COPY ./synApps-download.sh ./
 RUN bash synApps-download.sh 2>&1 | tee ./synApps-download.log
 
 COPY ./synApps-build.sh ./
+COPY ./scripts/copy_screens.sh ./scripts/
+COPY ./scripts/modify_adl_in_ui_files.sh ./scripts/
 RUN bash synApps-build.sh 2>&1 | tee ./synApps-build.log
+
+ENV IOCADSIMDETECTOR=${AREA_DETECTOR}/ADSimDetector/iocs/simDetectorIOC/iocBoot/iocSimDetector
+RUN ln -s ${IOCADSIMDETECTOR} ${SUPPORT}/iocSimDetector
+RUN ln -s ${IOCADSIMDETECTOR} ${APP_ROOT}/iocSimDetector
+RUN ln -s ${IOCADSIMDETECTOR} ${SCRIPT_DIR}/iocSimDetector
+# COPY ioc_files/run_simDetectorIOC ${IOCADSIMDETECTOR}/run
+# COPY ioc_files/runADSimDetector.sh /opt/
+# RUN cp ${XXX}/iocBoot/iocxxx/softioc/in-screen.sh ${IOCADSIMDETECTOR}/
 
 # TODO: test the XXX IOC somehow
 #     cd $IOCXXX/softIoc

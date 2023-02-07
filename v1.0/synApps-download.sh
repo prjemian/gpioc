@@ -32,6 +32,9 @@ echo_pwd_ls
 
 # edit the installer for EPICS_BASE and module selection
 bash "${SCRIPT_DIR}/scripts/edit_assemble_synApps.sh" 2>&1 | tee edit_assemble_synApps.log
+
+# further modify area detector
+bash "${SCRIPT_DIR}/scripts/recommended_AD_edits.sh" 2>&1 | tee recommended_AD_edits.log
 echo_pwd_ls
 
 # run the installer

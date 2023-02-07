@@ -88,4 +88,4 @@ _MODULES_+=" XXX"
 #   eval ${cmd}
 # done
 
-sed -i s:'git submodule update ADSimDetector':'git submodule update ADSimDetector\ngit submodule update ADURL\ngit submodule update pvaDriver':g ${TARGET}
+sed -i s:'git submodule update ADSimDetector':'git submodule update ADSimDetector\ngit submodule update ADURL\ngit submodule update pvaDriver\ngit submodule update ffmpegServer':g ${TARGET}
