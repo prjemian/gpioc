@@ -21,6 +21,7 @@ echo "TIRPC=YES" > "${SUPPORT}/asyn-R4-42/configure/CONFIG_SITE.local"
 echo "# --- synApps modules ---" 2>&1 | tee "${LOGFILE}"
 # do NOT use -j option: odd out-of-sequence errors occur
 make release 2>&1 | tee -a "${LOGFILE}"
+make clean 2>&1 | tee -a "${LOGFILE}"
 make 2>&1 | tee -a "${LOGFILE}"
 echo_pwd_ls
 

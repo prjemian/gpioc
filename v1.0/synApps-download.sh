@@ -4,6 +4,20 @@
 
 source ./env-vars.sh
 
+echo "# APP_ROOT=${APP_ROOT}"
+echo "# BASE_VERSION=${BASE_VERSION}"
+echo "# CAPUTRECORDER_HASH=${CAPUTRECORDER_HASH}"
+echo "# EPICS_BASE_NAME=${EPICS_BASE_NAME}"
+echo "# EPICS_HOST_ARCH=${APP_ROOT}"
+echo "# EPICS_ROOT=${APP_ROOT}"
+echo "# IOCXXX=${IOCXXX}"
+echo "# SCRIPT_DIR=${SCRIPT_DIR}"
+echo "# SUPPORT=${SUPPORT}"
+echo "# SYNAPPS_VERSION=${SYNAPPS_VERSION}"
+echo "# SYNAPPS=${SYNAPPS}"
+echo "# XXX_HASH=${XXX_HASH}"
+echo "# XXX=${XXX}"
+
 # ---------------------------------------------
 # --------------------------------------------- download & install
 # ---------------------------------------------
@@ -24,17 +38,20 @@ echo_pwd_ls
 bash ./assemble_synApps.sh 2>&1 | tee ./assemble_synApps.log
 echo_pwd_ls
 
+# repair a missing link
+echo "SNCSEQ=\$(SUPPORT)/seq-2-2-9" > ${SUPPORT}/StreamDevice-2-8-16/configure/RELEASE.local
+
 # ---------------------------------------------
 # --------------------------------------------- verify
 # ---------------------------------------------
 # if [ ! -d "${MOTOR}" ]; then echo "did not find expected: ${MOTOR}"; fi
-if [ ! -d "${XXX}" ]; then echo "did not find expected: ${XXX}"; fi
-if [ ! -d "${IOCXXX}" ]; then echo "did not find expected: ${IOCXXX}"; fi
+if [ ! -d "${XXX}" ]; then echo "did not find expected directory: XXX='${XXX}'"; fi
+if [ ! -d "${IOCXXX}" ]; then echo "did not find expected directory: IOCXXX='${IOCXXX}'"; fi
 
 # ---------------------------------------------
 # --------------------------------------------- IOC links
 # ---------------------------------------------
 ln -s "${IOCXXX}/" "${SUPPORT}/iocxxx"
 ln -s "${IOCXXX}/" "${APP_ROOT}/iocxxx"
-ln -s "${IOCXXX}/" /home
-ln -s "${SUPPORT}" /home
+ln -s "${IOCXXX}/" "${SCRIPT_DIR}"
+ln -s "${SUPPORT}" "${SCRIPT_DIR}"
