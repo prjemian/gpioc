@@ -89,4 +89,4 @@ Custom PVA detector IOC | [`custom-adurl-build.sh`](./v1.0/custom-adurl-build.sh
 
 ## References
 
-* https://github.com/prjemian/epics-docker/
+- [epics-docker](https://github.com/prjemian/epics-docker/)
