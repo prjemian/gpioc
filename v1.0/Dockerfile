@@ -4,7 +4,8 @@ LABEL version="1.1.0" \
       Description="source: https://github.com/prjemian/epics-docker/"
     #   lastupdate="2023-02-03" \
 USER  root
-WORKDIR /home
+ENV USER_DIR=/home
+WORKDIR ${USER_DIR}
 CMD ["/bin/bash"]
 
 # Install necessary libraries from offical repo
@@ -58,14 +59,14 @@ ENV EPICS_BASE_NAME="base-${BASE_VERSION}"
 ENV EPICS_ROOT="${APP_ROOT}/${EPICS_BASE_NAME}"
 ENV PATH="${EPICS_ROOT}/bin/${EPICS_HOST_ARCH}:${PATH}"
 
-COPY ./env-vars.sh ./
-COPY ./base-build.sh ./
-COPY ./db ./db/
-RUN bash base-build.sh 2>&1 | tee ./base-build.log
+COPY ./env-vars.sh "${USER_DIR}/"
+COPY ./base-build.sh "${USER_DIR}/"
+COPY ./db/demo.db "${USER_DIR}/db/"
+RUN bash "${USER_DIR}/base-build.sh" 2>&1 | tee "${USER_DIR}/base-build.log"
 
 # TODO: test the softIoc somehow
 # Run the IOC in a detached screen session and test xxx:UPTIME
-#     softIoc -m IOC=demo:  -d $SCRIPT_DIR/db/demo.db
+#     softIoc -m IOC=demo:  -d $USER_DIR/db/demo.db
 #     caget demo:ao
 
 # - - - - - - - - - - - - - - - - - - - - - -
@@ -79,33 +80,63 @@ ENV SUPPORT="${SYNAPPS}/support"
 ENV PATH="${SUPPORT}/utils:${PATH}"
 
 ENV AD_HASH=R3-11
-ENV AREA_DETECTOR=${SUPPORT}/areaDetector-${AD_HASH}
-ENV XXX_HASH=${SYNAPPS_VERSION}
-ENV XXX=${SUPPORT}/xxx-${XXX_HASH}
-ENV IOCXXX=${XXX}/iocBoot/iocxxx
+ENV AREA_DETECTOR="${SUPPORT}/areaDetector-${AD_HASH}"
+ENV XXX_HASH="${SYNAPPS_VERSION}"
+ENV XXX="${SUPPORT}/xxx-${XXX_HASH}"
+ENV IOCXXX="${XXX}/iocBoot/iocxxx"
 
-RUN mkdir -p ./scripts
-COPY ./scripts/edit_assemble_synApps.sh ./scripts/
-COPY ./scripts/recommended_AD_edits.sh ./scripts/
-COPY ./synApps-download.sh ./
-RUN bash synApps-download.sh 2>&1 | tee ./synApps-download.log
+COPY ./scripts/edit_assemble_synApps.sh "${USER_DIR}/scripts/"
+COPY ./scripts/recommended_AD_edits.sh "${USER_DIR}/scripts/"
+COPY ./synApps-download.sh "${USER_DIR}/"
+RUN bash synApps-download.sh 2>&1 | tee "${USER_DIR}/synApps-download.log"
 
-COPY ./synApps-build.sh ./
-COPY ./scripts/copy_screens.sh ./scripts/
-COPY ./scripts/modify_adl_in_ui_files.sh ./scripts/
-RUN bash synApps-build.sh 2>&1 | tee ./synApps-build.log
+COPY ./synApps-build.sh "${USER_DIR}/"
+COPY ./scripts/copy_screens.sh "${USER_DIR}/scripts/"
+COPY ./scripts/modify_adl_in_ui_files.sh "${USER_DIR}/scripts/"
+RUN bash synApps-build.sh 2>&1 | tee "${USER_DIR}/synApps-build.log"
 
-ENV IOCADSIMDETECTOR=${AREA_DETECTOR}/ADSimDetector/iocs/simDetectorIOC/iocBoot/iocSimDetector
-RUN ln -s ${IOCADSIMDETECTOR} ${SUPPORT}/iocSimDetector
-RUN ln -s ${IOCADSIMDETECTOR} ${APP_ROOT}/iocSimDetector
-RUN ln -s ${IOCADSIMDETECTOR} ${SCRIPT_DIR}/iocSimDetector
-# COPY ioc_files/run_simDetectorIOC ${IOCADSIMDETECTOR}/run
-# COPY ioc_files/runADSimDetector.sh /opt/
-# RUN cp ${XXX}/iocBoot/iocxxx/softioc/in-screen.sh ${IOCADSIMDETECTOR}/
+# - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - custom synApps XXX IOC
+# - - - - - - - - - - - - - - - - - - - - - -
 
-# TODO: test the XXX IOC somehow
-#     cd $IOCXXX/softIoc
-#     ./xxx.sh start
-#     caget xxx:UPTIME
-#     ./xxx.sh stop
+COPY ./custom-xxx-build.sh "${USER_DIR}/"
+COPY ./db/general_purpose.db "${USER_DIR}/db/"
+COPY ./db/asyn_motor.db.diffs "${USER_DIR}/db/"
+WORKDIR "${SUPPORT}"
 
+RUN \
+    mkdir "${SYNAPPS}/iocs" \
+    && tar cf - "xxx-${XXX_HASH}" | (cd "${SYNAPPS}/iocs" && tar xf -) \
+    && cd "${SYNAPPS}/iocs" \
+    && mv "${SYNAPPS}/iocs/xxx-${XXX_HASH}" xxx_custom \
+    && cd xxx_custom \
+    && /bin/rm -rf .git \
+    && make clean
+
+RUN bash "${USER_DIR}/custom-xxx-build.sh" 2>&1 | tee "${USER_DIR}/custom-xxx-build.log"
+WORKDIR "${SYNAPPS}/iocs/xxx_custom"
+
+# # TODO: test the XXX IOC somehow
+# #     cd $IOCXXX/softIoc
+# #     ./xxx.sh start
+# #     caget xxx:UPTIME
+# #     ./xxx.sh stop
+
+# WORKDIR ${USER_DIR}
+
+# # - - - - - - - - - - - - - - - - - - - - - -
+# # - - - - - - - - - - - - - - - - - - - - - - EPICS ADSimDetector
+# # - - - - - - - - - - - - - - - - - - - - - -
+
+# # FIXME: ADSimDetector IOC does not start
+# ENV IOCADSIMDETECTOR=${AREA_DETECTOR}/ADSimDetector/iocs/simDetectorIOC/iocBoot/iocSimDetector
+# RUN \
+#     ln -s ${IOCADSIMDETECTOR} ${SUPPORT}/iocSimDetector \
+#     && ln -s ${IOCADSIMDETECTOR} ${APP_ROOT}/iocSimDetector \
+#     && ln -s ${IOCADSIMDETECTOR} ${SCRIPT_DIR}/iocSimDetector
+
+# # COPY ioc_files/run_simDetectorIOC ${IOCADSIMDETECTOR}/run
+# # COPY ioc_files/runADSimDetector.sh /opt/
+# # RUN cp ${XXX}/iocBoot/iocxxx/softioc/in-screen.sh ${IOCADSIMDETECTOR}/
+
+WORKDIR ${USER_DIR}
