@@ -8,18 +8,18 @@ CONTENTS
 
 - [gpioc](#gpioc)
   - [IOCs](#iocs)
-    - [xxx](#xxx)
+    - [XXX](#xxx)
     - [ADSimDetector](#adsimdetector)
     - [ADURL](#adurl)
     - [PVA Detector](#pva-detector)
-    - [General Purpose - Custom XXX](#general-purpose---custom-xxx)
+    - [Custom XXX - General Purpose](#custom-xxx---general-purpose)
     - [Custom ADSimDetector](#custom-adsimdetector)
   - [Version 1 scripts](#version-1-scripts)
   - [References](#references)
 
 ## IOCs
 
-### xxx
+### XXX
 
 prefix: `xxx:` (default)
 
@@ -53,7 +53,7 @@ prefix: `13PVA1:`
 /home/runADPVA.sh
 ```
 
-### General Purpose - Custom XXX
+### Custom XXX - General Purpose
 
 prefix: user-specified (such as `gp:`)
 
