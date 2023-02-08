@@ -13,6 +13,7 @@ CONTENTS
     - [ADURL](#adurl)
     - [PVA Detector](#pva-detector)
     - [General Purpose - Custom XXX](#general-purpose---custom-xxx)
+    - [Custom ADSimDetector](#custom-adsimdetector)
   - [Version 1 scripts](#version-1-scripts)
   - [References](#references)
 
@@ -28,7 +29,7 @@ prefix: `xxx:` (default)
 
 ### ADSimDetector
 
-prefix: `13SIM:`
+prefix: `13SIM1:`
 
 ```bash
 /home/runADSimDetector.sh
@@ -38,15 +39,23 @@ prefix: `13SIM:`
 
 ### ADURL
 
-prefix: `13URL:`
+prefix: `13URL1:`
+
+```bash
+/home/runADURL.sh
+```
 
 ### PVA Detector
 
-prefix: `13PVA:`
+prefix: `13PVA1:`
+
+```bash
+/home/runADPVA.sh
+```
 
 ### General Purpose - Custom XXX
 
-prefix: `gp:` (or user-specified)
+prefix: user-specified (such as `gp:`)
 
 To run, define environment variable `PREFIX="gp:"` (or whatever), then:
 
@@ -82,6 +91,16 @@ docker exec "${CONTAINER}" "${STARTER_SCRIPT}"
 # stop the IOC
 docker stop "${CONTAINER}"
 # /bin/rm -rf "${HOST_TMP_SHARE}"
+```
+
+### Custom ADSimDetector
+
+prefix: user-specified (such as `ad:`)
+
+To run, define environment variable `PREFIX="ad:"` (or whatever), then:
+
+```bash
+# TODO:
 ```
 
 ## Version 1 scripts

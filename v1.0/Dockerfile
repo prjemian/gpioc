@@ -137,6 +137,30 @@ RUN \
     && bash "${USER_DIR}/scripts/edit_ADSimDetector.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - EPICS ADURL
+# - - - - - - - - - - - - - - - - - - - - - -
+
+ENV IOCADURL="${AREA_DETECTOR}/ADURL/iocs/urlIOC/iocBoot/iocURLDriver"
+COPY ./scripts/edit_ADURL.sh "${USER_DIR}/scripts/"
+RUN \
+    ln -s "${IOCADURL}" "${SUPPORT}/iocUrl" \
+    && ln -s "${IOCADURL}" "${APP_ROOT}/iocUrl" \
+    && ln -s "${IOCADURL}" "${USER_DIR}/iocUrl" \
+    && bash "${USER_DIR}/scripts/edit_ADURL.sh"
+
+# - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - EPICS (AD) pvaDriver
+# - - - - - - - - - - - - - - - - - - - - - -
+
+ENV IOCADPVA="${AREA_DETECTOR}/pvaDriver/iocs/pvaDriverIOC/iocBoot/iocPvaDriver"
+COPY ./scripts/edit_ADPVA.sh "${USER_DIR}/scripts/"
+RUN \
+    ln -s "${IOCADPVA}" "${SUPPORT}/iocPva" \
+    && ln -s "${IOCADPVA}" "${APP_ROOT}/iocPva" \
+    && ln -s "${IOCADPVA}" "${USER_DIR}/iocPva" \
+    && bash "${USER_DIR}/scripts/edit_ADPVA.sh"
+
+# - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - Final
 # - - - - - - - - - - - - - - - - - - - - - -
 
