@@ -2,9 +2,9 @@
 
 # Download and Build EPICS base
 
-source ./env-vars.sh
+source "${SCRIPT_DIR}/env_vars.sh"
 
-LOGFILE="${EPICS_BASE_NAME}/build.log"
+LOGFILE="${LOG_DIR}/epics_base_build.log"
 MAKE_OPTIONS=
 MAKE_OPTIONS+=all
 MAKE_OPTIONS+=" -j4"
@@ -13,7 +13,7 @@ MAKE_OPTIONS+=" CFLAGS=\"-fPIC\""
 MAKE_OPTIONS+=" CXXFLAGS=\"-fPIC\""
 
 cd ${APP_ROOT}
-ln -s "${APP_ROOT}" "${SCRIPT_DIR}/epics"
+ln -s "${APP_ROOT}" "${USER_DIR}/epics"
 echo_pwd_ls
 
 echo "# clear directory '${APP_ROOT}'"
@@ -58,9 +58,6 @@ make clean  2>&1 | tee -a "${LOGFILE}"
 
 cd "${APP_ROOT}"
 echo "# pwd=$(pwd)"
-mkdir -p "${APP_ROOT}/db"
-echo "# SCRIPT_DIR=${SCRIPT_DIR}"
-cp "${SCRIPT_DIR}/db"/demo.db "${APP_ROOT}/db/"
 
 echo_pwd_ls
 echo "# date: $(date --iso-8601=seconds)" | tee -a "${LOGFILE}"

@@ -1,7 +1,7 @@
 
 ORG=prjemian
 REPO=gpioc_host
-LOGFILE=build-log.txt
+LOGFILE=docker_build.log
 NET=host-bridge
 
 FULLNAME=$(ORG)/$(REPO)

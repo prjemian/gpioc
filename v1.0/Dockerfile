@@ -1,11 +1,13 @@
 FROM  ubuntu:latest
-LABEL version="1.1.0" \
+LABEL version="2.0.0" \
       maintainer="prjemian <prjemian@gmail.com>" \
-      Description="source: https://github.com/prjemian/epics-docker/"
-    #   lastupdate="2023-02-03" \
+      lastupdate="2023-02-08" \
+      Description="source: https://github.com/prjemian/gpioc/"
 USER  root
 ENV USER_DIR=/home
-WORKDIR ${USER_DIR}
+ENV LOG_DIR="${USER_DIR}/logs"
+ENV SCRIPT_DIR="${USER_DIR}/scripts"
+WORKDIR "${USER_DIR}"
 CMD ["/bin/bash"]
 
 # Install necessary libraries from offical repo
@@ -59,10 +61,13 @@ ENV EPICS_BASE_NAME="base-${BASE_VERSION}"
 ENV EPICS_ROOT="${APP_ROOT}/${EPICS_BASE_NAME}"
 ENV PATH="${EPICS_ROOT}/bin/${EPICS_HOST_ARCH}:${PATH}"
 
-COPY ./env-vars.sh "${USER_DIR}/"
-COPY ./base-build.sh "${USER_DIR}/"
+COPY ./scripts/env_vars.sh "${SCRIPT_DIR}/"
+COPY ./scripts/base_build.sh "${SCRIPT_DIR}/"
 COPY ./db/demo.db "${USER_DIR}/db/"
-RUN bash "${USER_DIR}/base-build.sh" 2>&1 | tee "${USER_DIR}/base-build.log"
+RUN \
+    mkdir -p "${APP_ROOT}" \
+    && mkdir -p "${LOG_DIR}"
+RUN bash "${SCRIPT_DIR}/base_build.sh" 2>&1 | tee "${LOG_DIR}/docker_base_build.log"
 
 # TODO: test the softIoc somehow
 # Run the IOC in a detached screen session and test xxx:UPTIME
@@ -85,15 +90,15 @@ ENV XXX_HASH="${SYNAPPS_VERSION}"
 ENV XXX="${SUPPORT}/xxx-${XXX_HASH}"
 ENV IOCXXX="${XXX}/iocBoot/iocxxx"
 
-COPY ./scripts/edit_assemble_synApps.sh "${USER_DIR}/scripts/"
-COPY ./scripts/recommended_AD_edits.sh "${USER_DIR}/scripts/"
-COPY ./synApps-download.sh "${USER_DIR}/"
-RUN bash synApps-download.sh 2>&1 | tee "${USER_DIR}/synApps-download.log"
+COPY ./scripts/edit_assemble_synapps.sh "${SCRIPT_DIR}/"
+COPY ./scripts/recommended_ad_edits.sh "${SCRIPT_DIR}/"
+COPY ./scripts/synapps_download.sh "${SCRIPT_DIR}/"
+RUN bash "${SCRIPT_DIR}/synapps_download.sh" 2>&1 | tee "${LOG_DIR}/docker_synapps_download.log"
 
-COPY ./synApps-build.sh "${USER_DIR}/"
-COPY ./scripts/copy_screens.sh "${USER_DIR}/scripts/"
-COPY ./scripts/modify_adl_in_ui_files.sh "${USER_DIR}/scripts/"
-RUN bash synApps-build.sh 2>&1 | tee "${USER_DIR}/synApps-build.log"
+COPY ./scripts/synapps_build.sh "${SCRIPT_DIR}/"
+COPY ./scripts/copy_screens.sh "${SCRIPT_DIR}/"
+COPY ./scripts/modify_adl_in_ui_files.sh "${SCRIPT_DIR}/"
+RUN bash "${SCRIPT_DIR}/synapps_build.sh" 2>&1 | tee "${LOG_DIR}/docker_synapps_build.log"
 
 # TODO: test the XXX IOC somehow
 #     cd $IOCXXX/softIoc
@@ -105,7 +110,7 @@ RUN bash synApps-build.sh 2>&1 | tee "${USER_DIR}/synApps-build.log"
 # - - - - - - - - - - - - - - - - - - - - - - custom synApps XXX IOC
 # - - - - - - - - - - - - - - - - - - - - - -
 
-COPY ./custom-xxx-build.sh "${USER_DIR}/"
+COPY ./scripts/custom_xxx_build.sh "${SCRIPT_DIR}/"
 COPY ./db/general_purpose.db "${USER_DIR}/db/"
 COPY ./db/asyn_motor.db.diffs "${USER_DIR}/db/"
 WORKDIR "${SUPPORT}"
@@ -119,7 +124,7 @@ RUN \
     && /bin/rm -rf .git \
     && make clean
 
-RUN bash "${USER_DIR}/custom-xxx-build.sh" 2>&1 | tee "${USER_DIR}/custom-xxx-build.log"
+RUN bash "${SCRIPT_DIR}/custom_xxx_build.sh" 2>&1 | tee "${LOG_DIR}/docker_custom_xxx_build.log"
 WORKDIR "${SYNAPPS}/iocs/xxx_custom"
 
 WORKDIR ${USER_DIR}
@@ -129,36 +134,48 @@ WORKDIR ${USER_DIR}
 # - - - - - - - - - - - - - - - - - - - - - -
 
 ENV IOCADSIMDETECTOR="${AREA_DETECTOR}/ADSimDetector/iocs/simDetectorIOC/iocBoot/iocSimDetector"
-COPY ./scripts/edit_ADSimDetector.sh "${USER_DIR}/scripts/"
+COPY ./scripts/edit_adsimdetector.sh "${SCRIPT_DIR}/"
 RUN \
     ln -s "${IOCADSIMDETECTOR}" "${SUPPORT}/iocSimDetector" \
     && ln -s "${IOCADSIMDETECTOR}" "${APP_ROOT}/iocSimDetector" \
     && ln -s "${IOCADSIMDETECTOR}" "${USER_DIR}/iocSimDetector" \
-    && bash "${USER_DIR}/scripts/edit_ADSimDetector.sh"
+    && bash "${SCRIPT_DIR}/edit_adsimdetector.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - EPICS ADURL
 # - - - - - - - - - - - - - - - - - - - - - -
 
 ENV IOCADURL="${AREA_DETECTOR}/ADURL/iocs/urlIOC/iocBoot/iocURLDriver"
-COPY ./scripts/edit_ADURL.sh "${USER_DIR}/scripts/"
+COPY ./scripts/edit_adurl.sh "${SCRIPT_DIR}/"
 RUN \
     ln -s "${IOCADURL}" "${SUPPORT}/iocUrl" \
     && ln -s "${IOCADURL}" "${APP_ROOT}/iocUrl" \
     && ln -s "${IOCADURL}" "${USER_DIR}/iocUrl" \
-    && bash "${USER_DIR}/scripts/edit_ADURL.sh"
+    && bash "${SCRIPT_DIR}/edit_adurl.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - EPICS (AD) pvaDriver
 # - - - - - - - - - - - - - - - - - - - - - -
 
 ENV IOCADPVA="${AREA_DETECTOR}/pvaDriver/iocs/pvaDriverIOC/iocBoot/iocPvaDriver"
-COPY ./scripts/edit_ADPVA.sh "${USER_DIR}/scripts/"
+COPY ./scripts/edit_adpva.sh "${SCRIPT_DIR}/"
 RUN \
     ln -s "${IOCADPVA}" "${SUPPORT}/iocPva" \
     && ln -s "${IOCADPVA}" "${APP_ROOT}/iocPva" \
     && ln -s "${IOCADPVA}" "${USER_DIR}/iocPva" \
-    && bash "${USER_DIR}/scripts/edit_ADPVA.sh"
+    && bash "${SCRIPT_DIR}/edit_adpva.sh"
+
+# - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - EPICS custom ADSimDetector
+# - - - - - - - - - - - - - - - - - - - - - -
+
+# ENV IOCADSIMDETECTOR="${AREA_DETECTOR}/ADSimDetector/iocs/simDetectorIOC/iocBoot/iocSimDetector"
+COPY ./scripts/custom_adsimdet.sh "${SCRIPT_DIR}/"
+# RUN \
+#     ln -s "${IOCADSIMDETECTOR}" "${SUPPORT}/iocSimDetector" \
+#     && ln -s "${IOCADSIMDETECTOR}" "${APP_ROOT}/iocSimDetector" \
+#     && ln -s "${IOCADSIMDETECTOR}" "${USER_DIR}/iocSimDetector" \
+#     && bash "${SCRIPT_DIR}/edit_ADSimDetector.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - Final

@@ -2,7 +2,7 @@
 
 # Build custom XXX-style general purpose IOC
 
-source "${USER_DIR}/env-vars.sh"
+source "${SCRIPT_DIR}/env_vars.sh"
 
 echo "running: $(readlink -f $0)"
 
@@ -164,7 +164,7 @@ export SUBFILE=
 sed -i s:'< common.iocsh':'< common.iocsh\n< general_purpose.iocsh':g    ./st.cmd.Linux
 
 # patch the caQtDM screen
-export diff_file=${USER_DIR}/changes-gp-ui.diff
+export diff_file=${SCRIPT_DIR}/changes-gp-ui.diff
 cat > "${diff_file}" << EOF
 3865c3928
 <               <string notr="true">-</string>
@@ -189,7 +189,6 @@ export diff_file=
 # 4-circle diffractometer orientation: motors
 sed -i s:'mTTH=SM1,mTH=SM2,mCHI=SM3,mPHI=SM4':'mTTH=m29,mTH=m30,mCHI=m31,mPHI=m32':g   "${XXX}/xxxApp/op/ui/xxx.ui"
 
-# TODO:
 # https://github.com/prjemian/epics-docker/blob/main/v1.1/n5_custom_synApps/ioc_files/customize_xxx.sh
 
 cd "${SYNAPPS}/iocs/xxx_custom"

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# file: edit_assemble_synapps.sh
 # edit the assemble_synApps.sh script
 # to download and prepare for building synApps
 
@@ -41,7 +42,7 @@ _MODULES_+=" XSPRESS3"
 
 for mod in ${_MODULES_}; do
   cmd="sed -i s:'${mod}=':'#+#${mod}=':g ${TARGET}"
-  echo ${cmd}
+  echo "# Do NOT use module '${mod}': ${cmd}"
   eval ${cmd}
 done
 
@@ -88,4 +89,10 @@ _MODULES_+=" XXX"
 #   eval ${cmd}
 # done
 
-sed -i s:'git submodule update ADSimDetector':'git submodule update ADSimDetector\ngit submodule update ADURL\ngit submodule update pvaDriver\ngit submodule update ffmpegServer':g ${TARGET}
+FIND="git submodule update ADSimDetector"
+REPLACE="${FIND}"
+REPLACE+="\ngit submodule update ADURL"
+REPLACE+="\ngit submodule update pvaDriver"
+# REPLACE+="\ngit submodule update ffmpegServer"
+sed -i s:"${FIND}":"${REPLACE}":g ${TARGET}
+

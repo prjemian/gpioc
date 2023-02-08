@@ -2,7 +2,7 @@
 
 # Download and Build EPICS synApps
 
-source ./env-vars.sh
+source "${SCRIPT_DIR}/env_vars.sh"
 
 echo "# APP_ROOT=${APP_ROOT}"
 echo "# BASE_VERSION=${BASE_VERSION}"
@@ -11,6 +11,7 @@ echo "# EPICS_BASE_NAME=${EPICS_BASE_NAME}"
 echo "# EPICS_HOST_ARCH=${APP_ROOT}"
 echo "# EPICS_ROOT=${APP_ROOT}"
 echo "# IOCXXX=${IOCXXX}"
+echo "# LOG_DIR=${LOG_DIR}"
 echo "# SCRIPT_DIR=${SCRIPT_DIR}"
 echo "# SUPPORT=${SUPPORT}"
 echo "# SYNAPPS_VERSION=${SYNAPPS_VERSION}"
@@ -31,14 +32,14 @@ wget https://raw.githubusercontent.com/EPICS-synApps/support/${SYNAPPS_VERSION}/
 echo_pwd_ls
 
 # edit the installer for EPICS_BASE and module selection
-bash "${SCRIPT_DIR}/scripts/edit_assemble_synApps.sh" 2>&1 | tee edit_assemble_synApps.log
-
-# further modify area detector
-bash "${SCRIPT_DIR}/scripts/recommended_AD_edits.sh" 2>&1 | tee recommended_AD_edits.log
-echo_pwd_ls
+bash "${SCRIPT_DIR}/edit_assemble_synapps.sh" 2>&1 | tee "${LOG_DIR}/edit_assemble_synapps.log"
 
 # run the installer
-bash ./assemble_synApps.sh 2>&1 | tee ./assemble_synApps.log
+bash ./assemble_synApps.sh 2>&1 | tee "${LOG_DIR}/assemble_synApps.log"
+echo_pwd_ls
+
+# further modify area detector
+bash "${SCRIPT_DIR}/recommended_ad_edits.sh" 2>&1 | tee "${LOG_DIR}/recommended_ad_edits.log"
 echo_pwd_ls
 
 # repair a missing link

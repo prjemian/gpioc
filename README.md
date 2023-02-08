@@ -109,16 +109,16 @@ step | script
 ---- | ------
 Common environment variables | [`env-vars.sh`](./v1.0/env-vars.sh)
 Download and Build EPICS base | [`base-build.sh`](./v1.0/base-build.sh)
-Download and Prepare synApps | [`synApps-download.sh`](./v1.0/synApps-download.sh)
-Build synApps | [`synApps-build.sh`](./v1.0/synApps-build.sh)
-Configure ADSimDetector IOC | [`edit_ADSimDetector`](./v1.0/scripts/edit_ADSimDetector.sh)
-Configure ADURL IOC | [`edit_ADURL`](./v1.0/scripts/edit_ADURL.sh)
-Configure pvaDriver IOC | [`edit_ADPVA`](./v1.0/scripts/edit_ADPVA.sh)
-Custom xxx IOC | [`custom-xxx-build.sh`](./v1.0/custom-xxx-build.sh)
+Download and Prepare synApps | [`synapps_download.sh`](./v1.0/synapps_download.sh)
+Build synApps | [`synapps_build.sh`](./v1.0/synapps_build.sh)
+Configure ADSimDetector IOC | [`edit_adsimdetector`](./v1.0/scripts/edit_adsimdetector.sh)
+Configure ADURL IOC | [`edit_adurl`](./v1.0/scripts/edit_adurl.sh)
+Configure pvaDriver IOC | [`edit_adpva`](./v1.0/scripts/edit_adpva.sh)
+Custom xxx IOC | [`custom_xxx_build.sh`](./v1.0/custom_xxx_build.sh)
 TODO | ...
-Custom ADSimDetector IOC | [`custom-adsimdet-build.sh`](./v1.0/custom-adsimdet-build.sh)
-Custom ADUrl IOC | [`custom-adurl-build.sh`](./v1.0/custom-adurl-build.sh)
-Custom pvaDriver IOC | [`custom_adpva_build.sh`](./v1.0/custom_adpva_build.sh)
+Custom ADSimDetector IOC | [`custom_adsimdet.sh`](./v1.0/custom_adsimdet.sh)
+Custom ADUrl IOC | [`custom_adurl.sh`](./v1.0/custom_adurl.sh)
+Custom pvaDriver IOC | [`custom_adpva.sh`](./v1.0/custom_adpva.sh)
 
 ## References
 

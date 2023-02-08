@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# file: edit_ADURL.sh
+# file: edit_adurl.sh
 # Purpose: support starting the IOC
 
 cd $(readlink -f "${IOCADURL}")

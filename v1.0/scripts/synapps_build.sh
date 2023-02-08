@@ -2,7 +2,7 @@
 
 # Download and Build EPICS synApps
 
-source ./env-vars.sh
+source "${SCRIPT_DIR}/env_vars.sh"
 
 LOGFILE="${SUPPORT}/build.log"
 
@@ -35,13 +35,13 @@ make -C ${IOCXXX}/ 2>&1 | tee -a "${LOGFILE}"
 cd ${APP_ROOT}
 mkdir -p "${APP_ROOT}/screens"
 bash \
-    "${SCRIPT_DIR}/scripts/copy_screens.sh" \
+    "${SCRIPT_DIR}/copy_screens.sh" \
     ${SUPPORT} \
     ${APP_ROOT}/screens \
-    | tee ./copy_screens.log
+    | tee "${LOG_DIR}/copy_screens.log"
 
 # use this script in all IOCs
 bash \
-    "${SCRIPT_DIR}/scripts/modify_adl_in_ui_files.sh" \
+    "${SCRIPT_DIR}/modify_adl_in_ui_files.sh" \
     ${APP_ROOT}/screens/ui/ \
-    | tee -a ./copy_screens.log
+    | tee -a "${LOG_DIR}/copy_screens.log"

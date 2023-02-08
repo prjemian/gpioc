@@ -1,25 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
-# file: edit_ADPVA.sh
+# file: edit_adsimdetector.sh
 # Purpose: support starting the IOC
 
-cd $(readlink -f "${IOCADPVA}")
+cd ${IOCADSIMDETECTOR}
 ln -s ./envPaths ./envPaths.linux
 
 echo "dbl > dbl-all.txt" >> ./st.cmd
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 
-pushd ../../../..
-make 2>&1 | tee make.log
-popd
-
-# - - - - - - - - - - - - - - - - - - - - - - - -
-
 cat > ./run << EOF
 #!/bin/sh
 
-"../../bin/${EPICS_HOST_ARCH}/pvaDriverApp" st.cmd.linux
+"../../bin/\${EPICS_HOST_ARCH}/simDetectorApp" st.cmd
 EOF
 chmod +x ./run
 
@@ -29,7 +23,7 @@ runner="./in-screen.sh"
 cat > "${runner}" << EOF
 #!/bin/sh
 
-/usr/bin/screen -dm -h 5000 -S iocPva ./run
+/usr/bin/screen -dm -h 5000 -S iocSimDetector ./run
 
 # start the IOC in a screen session
 #  type:
@@ -42,11 +36,11 @@ runner=
 
 # - - - - - - - - - - - - - - - - - - - - - - - -
 
-runner="${USER_DIR}/runADPVA.sh"
+runner="${USER_DIR}/runADSimDetector.sh"
 cat > "${runner}" << EOF
 #!/bin/sh
 
-cd ${IOCADPVA}
+cd ${IOCADSIMDETECTOR}
 ./in-screen.sh
 EOF
 chmod +x "${runner}"

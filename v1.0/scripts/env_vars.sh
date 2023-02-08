@@ -3,7 +3,7 @@
 # environment variables
 
 SHELL_SCRIPT_NAME=${BASH_SOURCE:-${0}}
-export SCRIPT_DIR=$(readlink -f $(dirname "${SHELL_SCRIPT_NAME}"))
+# export SCRIPT_DIR=$(readlink -f $(dirname "${SHELL_SCRIPT_NAME}"))
 
 # defined in Dockerfile
 # export BASE_VERSION=7.0.4.1
@@ -48,7 +48,7 @@ echo "# EPICS_BASE_NAME=${EPICS_BASE_NAME}"
 echo "# EPICS_HOST_ARCH=${APP_ROOT}"
 echo "# EPICS_ROOT=${APP_ROOT}"
 echo "# IOCXXX=${IOCXXX}"
-echo "# SCRIPT_DIR=${SCRIPT_DIR}"
+# echo "# SCRIPT_DIR=${SCRIPT_DIR}"
 echo "# SUPPORT=${SUPPORT}"
 echo "# SYNAPPS_VERSION=${SYNAPPS_VERSION}"
 echo "# SYNAPPS=${SYNAPPS}"
