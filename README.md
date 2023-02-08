@@ -22,6 +22,32 @@ CONTENTS
 
 prefix: `xxx:` (default)
 
+```bash
+/home/iocxxx/softioc/xxx.sh start
+```
+
+### ADSimDetector
+
+prefix: `13SIM:`
+
+```bash
+/home/runADSimDetector.sh
+# or
+# ${IOCADSIMDETECTOR}/run
+```
+
+### ADURL
+
+prefix: `13URL:`
+
+### PVA Detector
+
+prefix: `13PVA:`
+
+### General Purpose - Custom XXX
+
+prefix: `gp:` (or user-specified)
+
 To run, define environment variable `PREFIX="gp:"` (or whatever), then:
 
 ```bash
@@ -57,22 +83,6 @@ docker exec "${CONTAINER}" "${STARTER_SCRIPT}"
 docker stop "${CONTAINER}"
 # /bin/rm -rf "${HOST_TMP_SHARE}"
 ```
-
-### ADSimDetector
-
-prefix: `13SIM:`
-
-### ADURL
-
-prefix: `13URL:`
-
-### PVA Detector
-
-prefix: `13PVA:`
-
-### General Purpose - Custom XXX
-
-prefix: `gp:` (or user-specified)
 
 ## Version 1 scripts
 

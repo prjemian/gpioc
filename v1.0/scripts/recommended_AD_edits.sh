@@ -5,7 +5,7 @@
 #    https://areadetector.github.io/master/install_guide.html
 
 # Most edits are now completed by assemble_synApps.sh
-# These are alsop needed.
+# These are also needed.
 
 cd ${AREA_DETECTOR}/configure
 

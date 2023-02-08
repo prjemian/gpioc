@@ -95,6 +95,12 @@ COPY ./scripts/copy_screens.sh "${USER_DIR}/scripts/"
 COPY ./scripts/modify_adl_in_ui_files.sh "${USER_DIR}/scripts/"
 RUN bash synApps-build.sh 2>&1 | tee "${USER_DIR}/synApps-build.log"
 
+# TODO: test the XXX IOC somehow
+#     cd $IOCXXX/softIoc
+#     ./xxx.sh start
+#     caget xxx:UPTIME
+#     ./xxx.sh stop
+
 # - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - custom synApps XXX IOC
 # - - - - - - - - - - - - - - - - - - - - - -
@@ -116,27 +122,23 @@ RUN \
 RUN bash "${USER_DIR}/custom-xxx-build.sh" 2>&1 | tee "${USER_DIR}/custom-xxx-build.log"
 WORKDIR "${SYNAPPS}/iocs/xxx_custom"
 
-# # TODO: test the XXX IOC somehow
-# #     cd $IOCXXX/softIoc
-# #     ./xxx.sh start
-# #     caget xxx:UPTIME
-# #     ./xxx.sh stop
+WORKDIR ${USER_DIR}
 
-# WORKDIR ${USER_DIR}
+# - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - EPICS ADSimDetector
+# - - - - - - - - - - - - - - - - - - - - - -
 
-# # - - - - - - - - - - - - - - - - - - - - - -
-# # - - - - - - - - - - - - - - - - - - - - - - EPICS ADSimDetector
-# # - - - - - - - - - - - - - - - - - - - - - -
+ENV IOCADSIMDETECTOR="${AREA_DETECTOR}/ADSimDetector/iocs/simDetectorIOC/iocBoot/iocSimDetector"
+COPY ./scripts/edit_ADSimDetector.sh "${USER_DIR}/scripts/"
+RUN \
+    ln -s "${IOCADSIMDETECTOR}" "${SUPPORT}/iocSimDetector" \
+    && ln -s "${IOCADSIMDETECTOR}" "${APP_ROOT}/iocSimDetector" \
+    && ln -s "${IOCADSIMDETECTOR}" "${USER_DIR}/iocSimDetector" \
+    && bash "${USER_DIR}/scripts/edit_ADSimDetector.sh"
 
-# # FIXME: ADSimDetector IOC does not start
-# ENV IOCADSIMDETECTOR=${AREA_DETECTOR}/ADSimDetector/iocs/simDetectorIOC/iocBoot/iocSimDetector
-# RUN \
-#     ln -s ${IOCADSIMDETECTOR} ${SUPPORT}/iocSimDetector \
-#     && ln -s ${IOCADSIMDETECTOR} ${APP_ROOT}/iocSimDetector \
-#     && ln -s ${IOCADSIMDETECTOR} ${SCRIPT_DIR}/iocSimDetector
+# - - - - - - - - - - - - - - - - - - - - - -
+# - - - - - - - - - - - - - - - - - - - - - - Final
+# - - - - - - - - - - - - - - - - - - - - - -
 
-# # COPY ioc_files/run_simDetectorIOC ${IOCADSIMDETECTOR}/run
-# # COPY ioc_files/runADSimDetector.sh /opt/
-# # RUN cp ${XXX}/iocBoot/iocxxx/softioc/in-screen.sh ${IOCADSIMDETECTOR}/
-
+RUN ln -s "${APP_ROOT}/screens" /tmp/screens
 WORKDIR ${USER_DIR}
