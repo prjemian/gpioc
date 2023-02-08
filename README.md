@@ -111,10 +111,14 @@ Common environment variables | [`env-vars.sh`](./v1.0/env-vars.sh)
 Download and Build EPICS base | [`base-build.sh`](./v1.0/base-build.sh)
 Download and Prepare synApps | [`synApps-download.sh`](./v1.0/synApps-download.sh)
 Build synApps | [`synApps-build.sh`](./v1.0/synApps-build.sh)
+Configure ADSimDetector IOC | [`edit_ADSimDetector`](./v1.0/scripts/edit_ADSimDetector.sh)
+Configure ADURL IOC | [`edit_ADURL`](./v1.0/scripts/edit_ADURL.sh)
+Configure pvaDriver IOC | [`edit_ADPVA`](./v1.0/scripts/edit_ADPVA.sh)
 Custom xxx IOC | [`custom-xxx-build.sh`](./v1.0/custom-xxx-build.sh)
+TODO | ...
 Custom ADSimDetector IOC | [`custom-adsimdet-build.sh`](./v1.0/custom-adsimdet-build.sh)
 Custom ADUrl IOC | [`custom-adurl-build.sh`](./v1.0/custom-adurl-build.sh)
-Custom PVA detector IOC | [`custom-adurl-build.sh`](./v1.0/custom-adurl-build.sh)
+Custom pvaDriver IOC | [`custom_adpva_build.sh`](./v1.0/custom_adpva_build.sh)
 
 ## References
 
