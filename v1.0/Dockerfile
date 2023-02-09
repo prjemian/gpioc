@@ -171,11 +171,8 @@ RUN \
 
 # ENV IOCADSIMDETECTOR="${AREA_DETECTOR}/ADSimDetector/iocs/simDetectorIOC/iocBoot/iocSimDetector"
 COPY ./scripts/custom_adsimdet.sh "${SCRIPT_DIR}/"
-# RUN \
-#     ln -s "${IOCADSIMDETECTOR}" "${SUPPORT}/iocSimDetector" \
-#     && ln -s "${IOCADSIMDETECTOR}" "${APP_ROOT}/iocSimDetector" \
-#     && ln -s "${IOCADSIMDETECTOR}" "${USER_DIR}/iocSimDetector" \
-#     && bash "${SCRIPT_DIR}/edit_ADSimDetector.sh"
+RUN \
+    bash "${SCRIPT_DIR}/custom_adsimdet.sh"
 
 # - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - Final
