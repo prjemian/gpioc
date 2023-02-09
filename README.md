@@ -103,6 +103,8 @@ To run, define environment variable `PREFIX="ad:"` (or whatever), then:
 # TODO:
 ```
 
+- [reference](https://github.com/prjemian/epics-docker/blob/main/v1.1/n6_custom_areaDetector/ioc_files/customize_ad.sh)
+
 ## Version 1 scripts
 
 step | script
